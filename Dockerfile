@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . /app
 
-CMD cd ./app/app
+CMD ls -a
 
 RUN gradle installDist
 
