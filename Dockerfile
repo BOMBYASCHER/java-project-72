@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY . /app
 
-RUN gradle installDist
+RUN app/gradle installDist
 
 CMD ./build/install/java-project-72/bin/java-project-72
