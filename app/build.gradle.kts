@@ -6,6 +6,7 @@ plugins {
     id("java")
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("checkstyle")
+    jacoco
 }
 
 group = "hexlet.code"
@@ -31,6 +32,12 @@ dependencies {
     implementation("org.projectlombok:lombok:1.18.30")
     implementation("com.h2database:h2:2.2.224")
 
+}
+
+tasks.jacocoTestReport {
+    reports {
+        xml.required = true
+    }
 }
 
 tasks.test {
