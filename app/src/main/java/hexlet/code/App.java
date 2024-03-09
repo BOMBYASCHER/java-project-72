@@ -40,7 +40,7 @@ public class App {
         var hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(loadDatabaseUrl());
         var database = new HikariDataSource(hikariConfig);
-        authentication(database);
+//        authentication(database);
         String sql = loadDatabaseSchema(database);
         try (var statement = database.getConnection().createStatement()) {
             statement.execute(sql);
