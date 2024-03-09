@@ -41,7 +41,7 @@ public class App {
         hikariConfig.setJdbcUrl(loadDatabaseUrl());
         authentication(hikariConfig);
         var database = new HikariDataSource(hikariConfig);
-        String sql = loadDatabaseSchema(database);
+        String sql = loadDatabaseSchema();
         try (var statement = database.getConnection().createStatement()) {
             statement.execute(sql);
         }
@@ -52,8 +52,8 @@ public class App {
         return app;
     }
 
-    private static String loadDatabaseSchema(HikariDataSource database) throws IOException {
-        var name = database.getDataSourceProperties().isEmpty() ? "h2.sql" : "postgre.sql";
+    private static String loadDatabaseSchema() throws IOException {
+        var name = System.getenv("JDBC_DATABASE_URL") == null ? "h2.sql" : "postgre.sql";
         var inputStream = App.class.getClassLoader().getResourceAsStream(name);
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
             return reader.lines().collect(Collectors.joining("\n"));
