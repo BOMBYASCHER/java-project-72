@@ -29,18 +29,18 @@ public class App {
         var port = System.getenv().getOrDefault("PORT", "7070");
         return Integer.parseInt(port);
     }
-    private static void authentication(HikariDataSource database) {
+    private static void authentication(HikariConfig config) {
         String username = System.getenv("JDBC_DATABASE_USERNAME");
         String password = System.getenv("JDBC_DATABASE_PASSWORD");
-        database.setUsername(username);
-        database.setPassword(password);
+        config.setUsername(username);
+        config.setPassword(password);
     }
     public static Javalin getApp() throws IOException, SQLException {
         Logger logger = LoggerFactory.getLogger(App.class);
         var hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(loadDatabaseUrl());
+        authentication(hikariConfig);
         var database = new HikariDataSource(hikariConfig);
-//        authentication(database);
         String sql = loadDatabaseSchema(database);
         try (var statement = database.getConnection().createStatement()) {
             statement.execute(sql);
