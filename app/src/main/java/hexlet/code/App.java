@@ -34,7 +34,7 @@ public class App {
         var hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(loadDatabaseUrl());
         var database = new HikariDataSource(hikariConfig);
-        String sql = readResourcesFile("schema.sql");
+        String sql = loadDatabaseSchema(database);
         try (var statement = database.getConnection().createStatement()) {
             statement.execute(sql);
         }
@@ -45,10 +45,12 @@ public class App {
         return app;
     }
 
-    private static String readResourcesFile(String name) throws IOException {
+    private static String loadDatabaseSchema(HikariDataSource database) throws IOException {
+        var name = database.getDataSourceProperties().isEmpty() ? "h2.sql" : "postgre.sql";
         var inputStream = App.class.getClassLoader().getResourceAsStream(name);
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
             return reader.lines().collect(Collectors.joining("\n"));
         }
     }
+
 }
