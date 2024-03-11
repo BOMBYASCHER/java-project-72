@@ -22,7 +22,7 @@ public class AppTest {
     public void testApp() {
         JavalinTest.test(app, (server, client) -> {
             assertThat(client.get("/").code()).isEqualTo(200);
-            assertThat(client.get("/").body().string()).isEqualTo("Hello World");
+            assertThat(client.get("/").body().string()).contains("Page analyzer");
         });
     }
 }
