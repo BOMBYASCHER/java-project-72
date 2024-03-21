@@ -25,7 +25,9 @@ public class UrlRepository extends BaseRepository {
                     throw new SQLException("The database have not returned an id after saving");
                 }
             }
-        } else throw new SQLDataException("The database already has this page");
+        } else {
+            throw new SQLDataException("The database already has this page");
+        }
     }
 
     public static Optional<Url> search(String name) throws SQLException {

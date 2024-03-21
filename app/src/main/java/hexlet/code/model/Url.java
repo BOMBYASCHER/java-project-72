@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class Url {
+public final class Url {
     private long id;
     private final String name;
     private Timestamp createdAt;

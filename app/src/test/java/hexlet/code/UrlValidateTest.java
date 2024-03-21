@@ -36,7 +36,7 @@ public class UrlValidateTest {
         BaseRepository.connection = database;
     }
     @Test
-    public void POST_to_add_correct_url_is_ok() throws SQLException {
+    public void postToAddCorrectUrlIsOk() throws SQLException {
         var correctUrl = "https://www.youtube.com";
         when(ctx.formParam("url")).thenReturn(correctUrl);
         UrlController.create(ctx);
@@ -45,7 +45,7 @@ public class UrlValidateTest {
     }
 
     @Test
-    public void POST_to_add_correct_long_url_is_ok() throws SQLException {
+    public void postToAddCorrectLongUrlIsOk() throws SQLException {
         var correctLongUrl = "https://some-domain.org/example/path";
         when(ctx.formParam("url")).thenReturn(correctLongUrl);
         UrlController.create(ctx);
@@ -54,7 +54,7 @@ public class UrlValidateTest {
     }
 
     @Test
-    public void POST_to_add_correct_long_url_with_port_is_ok() throws SQLException {
+    public void postToAddCorrectLongUrlWithPortIsOk() throws SQLException {
         var correctLongWithPortUrl = "https://some-domain.org:8080/example/path";
         when(ctx.formParam("url")).thenReturn(correctLongWithPortUrl);
         UrlController.create(ctx);
@@ -63,7 +63,7 @@ public class UrlValidateTest {
     }
 
     @Test
-    public void POST_to_add_incorrect_url_is_ok() throws SQLException {
+    public void postToAddIncorrectUrlIsOk() throws SQLException {
         var incorrectUrl1 = "incorrectURL";
         when(ctx.formParam("url")).thenReturn(incorrectUrl1);
         UrlController.create(ctx);
@@ -90,7 +90,7 @@ public class UrlValidateTest {
     }
 
     @Test
-    public void POST_to_add_multiple_identical_url_is_ok() throws SQLException {
+    public void postToAddMultipleIdenticalUrlIsOk() throws SQLException {
         var url1 = "https://some-domain.org";
         when(ctx.formParam("url")).thenReturn(url1);
         UrlController.create(ctx);

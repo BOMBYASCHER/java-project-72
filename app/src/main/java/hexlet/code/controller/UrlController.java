@@ -43,7 +43,9 @@ public class UrlController {
         if (url.isPresent()) {
             var page = new UrlPage(url.get());
             ctx.render("urls/show.jte", Collections.singletonMap("page", page));
-        } else throw new NotFoundResponse("Url not found");
+        } else {
+            throw new NotFoundResponse("Url not found");
+        }
     }
     public static void index(Context ctx) throws SQLException {
         var urls = UrlRepository.getUrls();
