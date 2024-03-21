@@ -8,7 +8,6 @@ import hexlet.code.model.Url;
 import hexlet.code.repositoty.UrlRepository;
 import hexlet.code.utils.NamedRoutes;
 import io.javalin.http.Context;
-import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
 
 import java.net.MalformedURLException;
@@ -22,19 +21,17 @@ import java.util.Optional;
 public class UrlController {
     public static void create(Context ctx) throws SQLException {
         var websiteLink = ctx.formParam("url");
-        HttpStatus code = HttpStatus.OK;
         try {
             var url = new Url(parseUri(websiteLink).orElseThrow(MalformedURLException::new));
             url.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             UrlRepository.save(url);
-            code = HttpStatus.CREATED;
             ctx.sessionAttribute("flash", new Flash("Website added successfully!", FlashType.SUCCESS));
         } catch (MalformedURLException e) {
             ctx.sessionAttribute("flash", new Flash("Website link is incorrect!", FlashType.DANGER));
         } catch (SQLDataException e) {
             ctx.sessionAttribute("flash", new Flash("Website already exists!", FlashType.WARNING));
         }
-        ctx.redirect(NamedRoutes.rootPath(), code);
+        ctx.redirect(NamedRoutes.rootPath());
     }
 
     public static void show(Context ctx) throws SQLException, NotFoundResponse {

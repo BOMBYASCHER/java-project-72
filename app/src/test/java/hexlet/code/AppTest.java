@@ -54,7 +54,7 @@ public class AppTest {
         public void testUrl() {
             JavalinTest.test(app, (server, client) -> {
                 try (var postResponse = client.post(NamedRoutes.urlsPath(), "url=https://www.youtube.com")) {
-                    assertThat(postResponse.code()).isEqualTo(201);
+                    assertThat(postResponse.code()).isEqualTo(200);
 
                     var getResponse2 = client.get(NamedRoutes.urlPath(1L));
                     assertThat(getResponse2.code()).isEqualTo(200);
@@ -71,7 +71,7 @@ public class AppTest {
         public void testPostWithCorrectURL1() {
             JavalinTest.test(app, (server, client) -> {
                 try (var postResponse = client.post(NamedRoutes.urlsPath(), "url=https://www.youtube.com")) {
-                    assertThat(postResponse.code()).isEqualTo(201);
+                    assertThat(postResponse.code()).isEqualTo(200);
 
                     var getResponse1 = client.get(NamedRoutes.urlsPath());
                     assertThat(getResponse1.code()).isEqualTo(200);
@@ -89,7 +89,7 @@ public class AppTest {
             JavalinTest.test(app, (server, client) -> {
                 try (var postResponse = client.post(NamedRoutes.urlsPath(),
                         "url=https://some-domain.org/example/path")) {
-                    assertThat(postResponse.code()).isEqualTo(201);
+                    assertThat(postResponse.code()).isEqualTo(200);
 
                     var getResponse1 = client.get(NamedRoutes.urlsPath());
                     assertThat(getResponse1.code()).isEqualTo(200);
@@ -108,7 +108,7 @@ public class AppTest {
             JavalinTest.test(app, (server, client) -> {
                 try (var postResponse = client.post(NamedRoutes.urlsPath(),
                         "url=https://some-domain.org:8080/example/path")) {
-                    assertThat(postResponse.code()).isEqualTo(201);
+                    assertThat(postResponse.code()).isEqualTo(200);
 
                     var getResponse1 = client.get(NamedRoutes.urlsPath());
                     assertThat(getResponse1.code()).isEqualTo(200);
@@ -144,7 +144,7 @@ public class AppTest {
             JavalinTest.test(app, (server, client) -> {
                 try (var postResponse = client.post(NamedRoutes.urlsPath(),
                         "url=https://some-domain.org")) {
-                    assertThat(postResponse.code()).isEqualTo(201);
+                    assertThat(postResponse.code()).isEqualTo(200);
 
                     var getResponse = client.get(NamedRoutes.urlsPath());
                     assertThat(getResponse.body().string()).containsOnlyOnce("https://some-domain.org");
@@ -158,7 +158,7 @@ public class AppTest {
                 }
                 try (var postResponse = client.post(NamedRoutes.urlsPath(),
                         "url=https://some-domain.org:8080/example/path")) {
-                    assertThat(postResponse.code()).isEqualTo(201);
+                    assertThat(postResponse.code()).isEqualTo(200);
 
                     var getResponse = client.get(NamedRoutes.urlsPath());
                     assertThat(getResponse.body().string()).containsOnlyOnce("https://some-domain.org:8080");
