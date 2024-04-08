@@ -3,6 +3,7 @@ package hexlet.code;
 import hexlet.code.utils.NamedRoutes;
 import io.javalin.Javalin;
 import io.javalin.testtools.JavalinTest;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -14,7 +15,7 @@ import java.sql.SQLException;
 import static org.assertj.core.api.Assertions.assertThat;
 public class AppTest {
 
-    Javalin app;
+    static Javalin app;
 
     @BeforeEach
     public final void setUp() throws IOException, SQLException {
@@ -172,5 +173,9 @@ public class AppTest {
                 }
             });
         }
+    }
+    @AfterAll
+    public static void stop() {
+        app.stop();
     }
 }

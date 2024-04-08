@@ -9,7 +9,12 @@ import io.javalin.http.Context;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -18,18 +23,20 @@ import static org.mockito.Mockito.when;
 public class UrlValidateTest {
     private final Context ctx = mock(Context.class);
     @BeforeEach
-    public final void setUp() throws SQLException {
+    public final void setUp() throws SQLException, IOException {
         var hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;");
         var database = new HikariDataSource(hikariConfig);
-        String sql = """
-                DROP TABLE IF EXISTS urls;
-
-                CREATE TABLE urls (
-                    id bigint PRIMARY KEY AUTO_INCREMENT,
-                    name varchar(255) NOT NULL,
-                    created_at timestamp
-                );""";
+        var databaseSchemaInputStream = UrlChecksTest.class.getClassLoader().getResourceAsStream("h2.sql");
+        String sql;
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(databaseSchemaInputStream, StandardCharsets.UTF_8)
+        )) {
+            sql = reader.lines().collect(Collectors.joining("\n"));
+        }
+        try (var statement = database.getConnection().createStatement()) {
+            statement.execute(sql);
+        }
         try (var statement = database.getConnection().createStatement()) {
             statement.execute(sql);
         }
@@ -87,6 +94,12 @@ public class UrlValidateTest {
         UrlController.create(ctx);
         var hasUrl4 = UrlRepository.find(1L).isPresent();
         assertThat(hasUrl4).isFalse();
+
+        var incorrectUrl5 = "https:/www.youtube.com";
+        when(ctx.formParam("url")).thenReturn(incorrectUrl5);
+        UrlController.create(ctx);
+        var hasUrl5 = UrlRepository.find(1L).isPresent();
+        assertThat(hasUrl5).isFalse();
     }
 
     @Test
