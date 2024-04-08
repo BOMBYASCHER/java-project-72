@@ -6,6 +6,8 @@ COPY /app/src/main /app/src/main
 COPY /app/build.gradle.kts /app
 COPY /app/settings.gradle.kts /app
 
+CMD chmod +x ./gradlew
+
 RUN gradle installDist
 
 EXPOSE 7070
