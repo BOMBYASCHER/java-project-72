@@ -29,6 +29,28 @@ public class CheckRepository extends BaseRepository {
             }
         }
     }
+    public static List<UrlCheck> getUrlChecks(Long urlId) throws SQLException {
+        var sql = "SELECT * FROM url_checks "
+                + "WHERE url_id = ?";
+        try (var conn = connection.getConnection();
+             var preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setLong(1, urlId);
+            var resultSet = preparedStatement.executeQuery();
+            var urlChecks = new LinkedList<UrlCheck>();
+            while (resultSet.next()) {
+                var id = resultSet.getLong("id");
+                var statusCode = resultSet.getInt("status_code");
+                var h1 = resultSet.getString("h1");
+                var title = resultSet.getString("title");
+                var description = resultSet.getString("description");
+                var createdAt = resultSet.getTimestamp("created_at");
+                var check = new UrlCheck(id, urlId, statusCode, h1, title, description, createdAt);
+                urlChecks.addFirst(check);
+            }
+            return urlChecks;
+        }
+    }
+
     public static List<UrlCheck> getUrlChecks() throws SQLException {
         var sql = "SELECT * FROM url_checks";
         try (var conn = connection.getConnection();

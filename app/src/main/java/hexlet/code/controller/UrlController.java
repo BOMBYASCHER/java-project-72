@@ -38,7 +38,7 @@ public class UrlController {
     public static void show(Context ctx) throws SQLException, NotFoundResponse {
         var id = ctx.pathParamAsClass("id", Long.class).get();
         var url = UrlRepository.find(id);
-        var checks = CheckRepository.getUrlChecks();
+        var checks = CheckRepository.getUrlChecks(id);
         if (url.isPresent()) {
             var page = new UrlPage(url.get(), checks);
             ctx.render("urls/show.jte", Collections.singletonMap("page", page));
