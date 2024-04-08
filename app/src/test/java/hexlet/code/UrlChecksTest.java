@@ -6,7 +6,6 @@ import hexlet.code.controller.CheckController;
 import hexlet.code.controller.UrlController;
 import hexlet.code.repositoty.BaseRepository;
 import hexlet.code.repositoty.CheckRepository;
-import hexlet.code.repositoty.UrlRepository;
 import io.javalin.http.Context;
 import io.javalin.validation.Params;
 import io.javalin.validation.Validator;
@@ -124,7 +123,6 @@ public class UrlChecksTest {
         assertThat(CheckRepository.getUrlChecks().size()).isEqualTo(2);
         when(ctx.formParam("url")).thenReturn(largeUrl);
         UrlController.create(ctx);
-        System.out.println(UrlRepository.getUrls());
         var largeValidator = new Validator<>(
                 new Params<>(
                         "id",

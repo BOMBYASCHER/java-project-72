@@ -38,6 +38,7 @@ dependencies {
     implementation("gg.jte:jte:3.1.9")
     implementation("com.konghq:unirest-java-bom:4.3.0")
     implementation("com.konghq:unirest-java-core:4.3.0")
+    implementation("org.jsoup:jsoup:1.17.2")
 }
 
 tasks.jacocoTestReport {
