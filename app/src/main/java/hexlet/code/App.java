@@ -4,6 +4,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
+import hexlet.code.controller.CheckController;
 import hexlet.code.controller.RootController;
 import hexlet.code.controller.UrlController;
 import hexlet.code.utils.NamedRoutes;
@@ -48,6 +49,7 @@ public class App {
         app.get(NamedRoutes.urlsPath(), UrlController::index);
         app.get(NamedRoutes.urlPath(), UrlController::show);
         app.post(NamedRoutes.urlsPath(), UrlController::create);
+        app.post(NamedRoutes.checksPath(), CheckController::create);
         logger.info("Logger started");
         return app;
     }

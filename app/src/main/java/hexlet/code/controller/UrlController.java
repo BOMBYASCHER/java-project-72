@@ -5,6 +5,7 @@ import hexlet.code.dto.flash.FlashType;
 import hexlet.code.dto.urls.UrlPage;
 import hexlet.code.dto.urls.UrlsPage;
 import hexlet.code.model.Url;
+import hexlet.code.repositoty.CheckRepository;
 import hexlet.code.repositoty.UrlRepository;
 import hexlet.code.utils.NamedRoutes;
 import io.javalin.http.Context;
@@ -37,8 +38,9 @@ public class UrlController {
     public static void show(Context ctx) throws SQLException, NotFoundResponse {
         var id = ctx.pathParamAsClass("id", Long.class).get();
         var url = UrlRepository.find(id);
+        var checks = CheckRepository.getUrlChecks();
         if (url.isPresent()) {
-            var page = new UrlPage(url.get());
+            var page = new UrlPage(url.get(), checks);
             ctx.render("urls/show.jte", Collections.singletonMap("page", page));
         } else {
             throw new NotFoundResponse("Url not found");
@@ -54,6 +56,9 @@ public class UrlController {
         try {
             var uri = URI.create(path);
             var url = uri.toURL();
+            if (url.getProtocol() == null || url.getAuthority() == null) {
+                throw new IllegalArgumentException();
+            }
             return Optional.of(url.getProtocol() + "://" + url.getAuthority());
         } catch (IllegalArgumentException e) {
             return Optional.empty();

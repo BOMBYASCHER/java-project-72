@@ -57,9 +57,8 @@ public class UrlRepository extends BaseRepository {
             if (resultSet.next()) {
                 var name = resultSet.getString("name");
                 var createdAt = resultSet.getTimestamp("created_at");
-                var url = new Url(name);
-                url.setId(id);
-                url.setCreatedAt(createdAt);
+                var lastCheck = CheckRepository.getLastCheck(id);
+                var url = new Url(id, name, createdAt, lastCheck);
                 return Optional.of(url);
             }
             return Optional.empty();
@@ -75,9 +74,8 @@ public class UrlRepository extends BaseRepository {
                 var id = resultSet.getLong("id");
                 var name = resultSet.getString("name");
                 var createdAt = resultSet.getTimestamp("created_at");
-                var url = new Url(name);
-                url.setId(id);
-                url.setCreatedAt(createdAt);
+                var lastCheck = CheckRepository.getLastCheck(id);
+                var url = new Url(id, name, createdAt, lastCheck);
                 urls.add(url);
             }
             return urls;
