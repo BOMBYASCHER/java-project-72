@@ -41,6 +41,7 @@ public class UrlController {
         var checks = CheckRepository.getUrlChecks(id);
         if (url.isPresent()) {
             var page = new UrlPage(url.get(), checks);
+            page.setFlash(ctx.consumeSessionAttribute("flash"));
             ctx.render("urls/show.jte", Collections.singletonMap("page", page));
         } else {
             throw new NotFoundResponse("Url not found");
