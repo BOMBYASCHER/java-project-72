@@ -10,8 +10,6 @@ import io.javalin.http.Context;
 import kong.unirest.core.Unirest;
 import org.jsoup.Jsoup;
 
-import javax.net.ssl.SSLException;
-import java.net.ConnectException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
