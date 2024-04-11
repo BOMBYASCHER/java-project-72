@@ -36,7 +36,6 @@ public class App {
         authentication(hikariConfig);
         var database = new HikariDataSource(hikariConfig);
         String sql = loadDatabaseSchema();
-        System.out.println(sql);
         try (var statement = database.getConnection().createStatement()) {
             statement.execute(sql);
         }
