@@ -1,4 +1,4 @@
-ALTER TABLE IF EXISTS url_checks DROP CONSTRAINT fk_url_checks_url_id;
+ALTER TABLE IF EXISTS url_checks DROP CONSTRAINT IF EXISTS fk_url_checks_url_id;
 
 DROP TABLE IF EXISTS urls;
 
